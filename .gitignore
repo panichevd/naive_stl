@@ -30,3 +30,7 @@
 *.exe
 *.out
 *.app
+
+naive_stl/*
+x64/*
+*.sln
