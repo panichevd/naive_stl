@@ -11,8 +11,6 @@ struct PiecewiseConstructT {
     explicit PiecewiseConstructT() = default;
 };
 
-PiecewiseConstructT PiecewiseConstruct{};
-
 template <typename T1, typename T2>
 class Pair
 {
@@ -159,6 +157,36 @@ void swap(Pair<T1, T2>& left, Pair<T1, T2>& right) /*noexcept()*/
 {
     left.swap(right);
 }
+
+// TODO: move to Tuple.h?
+
+template <typename... Types>
+class Tuple;
+
+template <std::size_t I, typename _Tuple>
+class TupleElement;
+
+template<typename Head, typename... Tail>
+struct TupleElement<0, Tuple<Head, Tail...>>
+{
+    using type = Head;
+    using TupleType = Tuple<Head, Tail...>;
+};
+
+template<std::size_t I, typename Head, typename... Tail>
+struct TupleElement<I, Tuple<Head, Tail...>> :
+    TupleElement<I - 1, Tuple<Tail...>>
+{
+};
+
+template <class _Tuple>
+struct TupleSize;
+
+template<typename... Types >
+struct TupleSize<Tuple<Types...>> :
+    std::integral_constant<std::size_t, sizeof...(Types)>
+{
+};
 
 // TODO: get
 

@@ -34,3 +34,5 @@
 naive_stl/*
 x64/*
 *.sln
+
+/.vs
