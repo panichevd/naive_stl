@@ -1,4 +1,4 @@
-#include "Tuple.h"
+/*#include "Tuple.h"
 #include <iostream>
 #include <string>
 #include <tuple>
@@ -82,4 +82,4 @@ int main()
     std::cin.get();
 
     return 0;
-}
+}*/

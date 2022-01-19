@@ -1,4 +1,4 @@
-/*#include "Utility.h"
+#include "Utility.h"
 
 using namespace naive;
 
@@ -10,5 +10,7 @@ int main()
 	auto int_s = MakeIntegerSequence<int, 30>();
 	auto ind_s = MakeIndexSequence<20>();
 
+	auto isf = IndexSequenceFor<float, int, char*>();
+
 	return 0;
-}*/
+}

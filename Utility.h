@@ -31,11 +31,14 @@ struct _MakeIntegerSequence<T, 0, Ints...>
     using Type = IntegerSequence<T, Ints...>;
 };
 
-template<typename T, size_t N>
+template<typename T, T N>
 using MakeIntegerSequence = typename _MakeIntegerSequence<T, N>::Type;
 
 template<size_t N>
 using MakeIndexSequence = MakeIntegerSequence<size_t, N>;
+
+template<class... T>
+using IndexSequenceFor = MakeIndexSequence<sizeof...(T)>;
 
 struct PiecewiseConstructT
 {
