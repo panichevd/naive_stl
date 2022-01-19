@@ -7,7 +7,38 @@ namespace naive {
 
 // TODO: enable_if stuff, noexcept, constexpr
 
-struct PiecewiseConstructT {
+template <typename T, T... Ints>
+struct IntegerSequence
+{
+    using ValueType = T;
+
+    static constexpr size_t Size() noexcept
+    { return sizeof...(Ints); }
+};
+
+template<size_t... Ints>
+using IndexSequence = IntegerSequence<size_t, Ints...>;
+
+template<typename T, size_t N, T... Ints>
+struct _MakeIntegerSequence
+{
+    using Type = typename _MakeIntegerSequence<T, N - 1, Ints..., sizeof...(Ints)>::Type;
+};
+
+template<typename T, T... Ints>
+struct _MakeIntegerSequence<T, 0, Ints...>
+{
+    using Type = IntegerSequence<T, Ints...>;
+};
+
+template<typename T, size_t N>
+using MakeIntegerSequence = typename _MakeIntegerSequence<T, N>::Type;
+
+template<size_t N>
+using MakeIndexSequence = MakeIntegerSequence<size_t, N>;
+
+struct PiecewiseConstructT
+{
     explicit PiecewiseConstructT() = default;
 };
 

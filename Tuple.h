@@ -2,7 +2,7 @@
 
 #include "Utility.h"
 
-// TODO: constexpr the whole thing
+// TODO: constexpr, noexcept the whole thing
 
 namespace naive {
 
@@ -64,7 +64,7 @@ public:
 		Tuple(
 			UnpackTag(),
 			other,
-			std::make_index_sequence<TupleSize<Tuple<UTypes...>>::value>())
+			MakeIndexSequence<TupleSize<Tuple<UTypes...>>::value>())
 	{
 	}
 
@@ -73,7 +73,7 @@ public:
 		Tuple(
 			UnpackTag(),
 			std::forward<Tuple<UTypes...>>(other),
-			std::make_index_sequence<TupleSize<Tuple<UTypes...>>::value>())
+			MakeIndexSequence<TupleSize<Tuple<UTypes...>>::value>())
 	{
 	}
 
@@ -153,10 +153,10 @@ public:
 
 private:
 	template<typename... UTypes, std::size_t... Indices>
-	Tuple(UnpackTag, const Tuple<UTypes...>& other, std::index_sequence<Indices...>);
+	Tuple(UnpackTag, const Tuple<UTypes...>& other, IndexSequence<Indices...>);
 
 	template<typename... UTypes, std::size_t... Indices>
-	Tuple(UnpackTag, Tuple<UTypes...>&& other, std::index_sequence<Indices...>);
+	Tuple(UnpackTag, Tuple<UTypes...>&& other, IndexSequence<Indices...>);
 
 protected:
 	template <typename U, typename... UTypes>
@@ -186,11 +186,7 @@ private:
 	template<class... TTypes, class... UTypes >
 	friend constexpr bool operator<(const Tuple<TTypes...>& lhs, const Tuple<UTypes...>& rhs);
 
-	// TODO get by type + constexpr
-
 public:
-	// TODO: extract for type
-
 	T element;
 };
 
@@ -364,14 +360,14 @@ typename TupleCatTypeExtractor<typename std::remove_reference_t<Tuples>...>::Typ
 
 template <typename T, typename... Types>
 template <typename... UTypes, std::size_t... Indices>
-Tuple<T, Types...>::Tuple(UnpackTag, const Tuple<UTypes...>& other, std::index_sequence<Indices...>) :
+Tuple<T, Types...>::Tuple(UnpackTag, const Tuple<UTypes...>& other, IndexSequence<Indices...>) :
 	Tuple(Get<Indices>(other)...)
 {
 }
 
 template <typename T, typename... Types>
 template <typename... UTypes, std::size_t... Indices>
-Tuple<T, Types...>::Tuple(UnpackTag, Tuple<UTypes...>&& other, std::index_sequence<Indices...>) :
+Tuple<T, Types...>::Tuple(UnpackTag, Tuple<UTypes...>&& other, IndexSequence<Indices...>) :
 	Tuple(Get<Indices>(std::forward<Tuple<UTypes...>>(other))...)
 {
 }
